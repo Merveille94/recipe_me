@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { Code, Linkedin, Mail, Github, Briefcase } from 'lucide-react';
+import { Code, Linkedin, Mail, Briefcase } from 'lucide-react';
 import Link from "next/link";
 
 const About: React.FC = () => {

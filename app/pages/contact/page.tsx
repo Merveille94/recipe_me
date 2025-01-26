@@ -1,8 +1,12 @@
 import React from 'react'
+import Contact from "@/app/components/contact/Contact";
+
 
 const Page = () => {
     return (
-        <div>ContactPage</div>
+        <>
+            <Contact/>
+        </>
     )
 }
 export default Page

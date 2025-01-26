@@ -1,27 +1,90 @@
-import React from 'react'
+"use client";
 
-const Search = () => {
+import React, { useState } from "react";
+
+function Search({ setName, setRecipes }) {
+    const [search, setSearch] = useState("");
+    const [category, setCategory] = useState("Chicken");
+
+    const onSearch = async () => {
+        try {
+            if (typeof setRecipes !== "function" || typeof setName !== "function") {
+                console.error("setRecipes or setName is not a valid function");
+                return;
+            }
+
+            const nameEndpoint = `https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`;
+            const nameRes = await fetch(nameEndpoint);
+            if (nameRes.ok) {
+                const nameData = await nameRes.json();
+                if (nameData.meals) {
+                    setRecipes(nameData.meals);
+                    setName(search);
+                    return;
+                }
+            }
+
+            const ingredientEndpoint = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${search}`;
+            const ingredientRes = await fetch(ingredientEndpoint);
+            if (ingredientRes.ok) {
+                const ingredientData = await ingredientRes.json();
+                if (ingredientData.meals) {
+                    setRecipes(ingredientData.meals);
+                    setName(search);
+                    return;
+                }
+            }
+
+            setRecipes([]);
+            setName(search);
+        } catch (error) {
+            console.error("Search error:", error);
+            setRecipes([]);
+        }
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.key === "Enter") {
+            onSearch();
+        }
+    };
+
     return (
-        <section className="grid grid-cols-1 md:grid-cols-2 text-gray-200 m-2 text-center">
-            <div className="col-span-1 mb-2 md:mb-0">
-                <label htmlFor={"recipe"} className="font-semibold text-sm hidden md:inline-block pr-2">Filter: </label>
-                <select id="recipe" name={"recipe"} className="ml-2 h-10 pr-10 text-sm border-2 border-gray-300 text-gray-600 rounded-lg focus:outline-none">
-                    <option value="Chicken">Chicken Sauce</option>
-                    <option value="Beef">Beef Sauce</option>
-                    <option value="Fish">French Fries</option>
-                </select>
-            </div>
-            {/*<div className="col-1"><h3 className="px-4 font-semibold">or</h3></div>*/}
-            <div className="col-span-1">
-                <search>
-                    <form className="space-x-2 flex items-center justify-center flex-col md:flex-row">
-                        <label htmlFor={"search"} className="font-semibold text-sm hidden md:inline-block ">Search:</label>
-                        <input name="search" id="search" placeholder="Search recipe" className="h-10 pl-2 text-sm text-gray-600 rounded-lg mb-2 md:mb-0 " />
-                        <button type="submit" className="h-10 font-semibold px-16 text-sm text-center text-gray-100 bg-green-800 rounded-lg">Search</button>
-                    </form>
-                </search>
-            </div>
-        </section>
-    )
+        <div className="flex flex-wrap items-center justify-center gap-4 m-4 md:gap-6">
+            <select
+                value={category}
+                onChange={(e) => {
+                    setCategory(e.target.value);
+                    setName(e.target.value);
+                }}
+                className="border-2 border-gray-300 bg-white h-10 px-5 rounded-lg text-sm focus:outline-none w-full sm:w-auto"
+            >
+                <option value="Chicken">Chicken</option>
+                <option value="Beef">Beef</option>
+                <option value="Lamb">Lamb</option>
+                <option value="Pork">Pork</option>
+            </select>
+
+            <h1 className="text-lg font-semibold text-center text-gray-500 mx-4">
+                OR
+            </h1>
+
+            <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyPress={handleKeyPress}
+                className="border-2 border-gray-300 bg-white h-10 px-5 rounded-lg text-sm focus:outline-none w-full sm:w-auto"
+                placeholder="Search by recipe or ingredient"
+            />
+
+            <button
+                onClick={onSearch}
+                className="bg-black border-2 border-gray-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-xl w-full sm:w-auto"
+            >
+                Search
+            </button>
+        </div>
+    );
 }
-export default Search
+
+export default Search;

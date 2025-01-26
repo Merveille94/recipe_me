@@ -2,17 +2,18 @@
 
 import React, { useState } from "react";
 
-function Search({ setName, setRecipes }) {
-    const [search, setSearch] = useState("");
-    const [category, setCategory] = useState("Chicken");
+// Define the props interface
+interface SearchProps {
+    setName: (name: string) => void; // setName accepts a string and returns void
+    setRecipes: (recipes: never[]) => void; // setRecipes accepts an array and returns void
+}
+
+const Search: React.FC<SearchProps> = ({ setName, setRecipes }) => {
+    const [search, setSearch] = useState<string>(""); // State for search term
+    const [category, setCategory] = useState<string>("Chicken"); // State for selected category
 
     const onSearch = async () => {
         try {
-            if (typeof setRecipes !== "function" || typeof setName !== "function") {
-                console.error("setRecipes or setName is not a valid function");
-                return;
-            }
-
             const nameEndpoint = `https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`;
             const nameRes = await fetch(nameEndpoint);
             if (nameRes.ok) {
@@ -35,15 +36,15 @@ function Search({ setName, setRecipes }) {
                 }
             }
 
-            setRecipes([]);
+            setRecipes([]); // No results found
             setName(search);
         } catch (error) {
             console.error("Search error:", error);
-            setRecipes([]);
+            setRecipes([]); // Handle error case
         }
     };
 
-    const handleKeyPress = (e) => {
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             onSearch();
         }
@@ -85,6 +86,6 @@ function Search({ setName, setRecipes }) {
             </button>
         </div>
     );
-}
+};
 
 export default Search;

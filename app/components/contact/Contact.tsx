@@ -22,7 +22,7 @@ const Contact = () => {
         {
             icon: Github,
             text: "GitHub Profile",
-            link: "https://github.com/yourusername"
+            link: "https://github.com/Merveille94"
         }
     ];
 

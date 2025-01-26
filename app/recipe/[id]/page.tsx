@@ -19,8 +19,12 @@ async function getData(id: string): Promise<MealData> {
     return res.json();
 }
 
-export default async function Page(context: { params: { id: string } }) {
-    const { id } = await context.params;
+interface PageProps {
+    params: { id: string };
+}
+
+export default async function Page({ params }: PageProps) {
+    const { id } = params;
     const data = await getData(id);
     const meal = data.meals[0];
 

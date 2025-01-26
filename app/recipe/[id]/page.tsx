@@ -35,14 +35,10 @@ export default async function Page({ params }: PageProps) {
     return (
         <div className="bg-gray-800 min-h-screen py-12">
             <div className="container mx-auto bg-slate-900 shadow-2xl rounded-2xl overflow-hidden">
-                {/* Meal Title */}
                 <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 text-center">
                     <h1 className="text-3xl font-bold tracking-wide">{meal.strMeal}</h1>
                 </div>
-
-                {/* Content Container */}
                 <div className="grid md:grid-cols-2 gap-8 p-8">
-                    {/* Image Section */}
                     <div className="relative aspect-square rounded-xl overflow-hidden shadow-lg">
                         <Image
                             src={meal.strMealThumb}
@@ -51,10 +47,7 @@ export default async function Page({ params }: PageProps) {
                             className="object-cover hover:scale-110 transition-transform duration-300"
                         />
                     </div>
-
-                    {/* Details Section */}
                     <div>
-                        {/* Ingredients */}
                         <div className="mb-8">
                             <h2 className="text-2xl font-semibold text-blue-700 border-b-2 border-blue-200 pb-2 mb-4">
                                 Ingredients
@@ -78,8 +71,6 @@ export default async function Page({ params }: PageProps) {
                                 })}
                             </ul>
                         </div>
-
-                        {/* Instructions */}
                         <div>
                             <h2 className="text-2xl font-semibold text-blue-700 border-b-2 border-blue-400 pb-2 mb-4">
                                 Cooking Instructions
@@ -88,8 +79,6 @@ export default async function Page({ params }: PageProps) {
                                 {meal.strInstructions}
                             </p>
                         </div>
-
-                        {/* YouTube Video */}
                         {meal.strYoutube && (
                             <div className="mt-8">
                                 <h2 className="text-2xl font-semibold text-blue-700 border-b-2 border-blue-200 pb-2 mb-4">

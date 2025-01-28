@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import Image from "next/image";
 
 interface MealData {
@@ -19,13 +20,31 @@ async function getData(id: string): Promise<MealData> {
     return res.json();
 }
 
-// Remove the Props type and directly type the page component parameters
-export default async function Page({
-                                       params,
-                                   }: {
+type GenerateMetadata = {
     params: { id: string };
+    searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata({ params }: GenerateMetadata): Promise<Metadata> {
+    const data = await getData(params.id);
+    const meal = data.meals[0];
+
+    return {
+        title: meal?.strMeal ?? 'Recipe Details',
+        description: `Recipe details for ${meal?.strMeal}`,
+    };
+}
+
+// Use the correct types for Next.js page props
+type PageType = {
+    id: string;
+};
+
+export default async function Page({
+                                       params: { id },
+                                   }: {
+    params: PageType;
 }) {
-    const { id } = params;
     const data = await getData(id);
     const meal = data.meals[0];
 

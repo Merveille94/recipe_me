@@ -19,11 +19,12 @@ async function getData(id: string): Promise<MealData> {
     return res.json();
 }
 
-interface PageProps {
+// Remove the Props type and directly type the page component parameters
+export default async function Page({
+                                       params,
+                                   }: {
     params: { id: string };
-}
-
-export default async function Page({ params }: PageProps) {
+}) {
     const { id } = params;
     const data = await getData(id);
     const meal = data.meals[0];

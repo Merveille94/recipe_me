@@ -20,21 +20,13 @@ async function getData(id: string): Promise<MealData> {
     return res.json();
 }
 
-// Fix: Ensure params type matches Next.js expectation
-export default async function Page({
-                                       params,
-                                   }: {
-    params: { id: string };
-}) {
+// ✅ FIX: Use Next.js `PageProps` correctly
+export default async function Page({ params }: { params: { id: string } }) {
     const data = await getData(params.id);
     const meal = data.meals[0];
 
     if (!meal) {
-        return (
-            <div className="min-h-screen flex items-center justify-center text-2xl text-gray-600">
-                Meal not found!
-            </div>
-        );
+        return <div className="min-h-screen flex items-center justify-center text-2xl text-gray-600">Meal not found!</div>;
     }
 
     return (
@@ -63,10 +55,7 @@ export default async function Page({
                                     const measurement = meal[`strMeasure${index}`];
 
                                     return ingredient && measurement ? (
-                                        <li
-                                            key={index}
-                                            className="flex items-center bg-blue-50 p-2 rounded-md"
-                                        >
+                                        <li key={index} className="flex items-center bg-blue-50 p-2 rounded-md">
                                             <span className="w-8 h-8 bg-blue-200 rounded-full mr-3 flex items-center justify-center">
                                                 {index}
                                             </span>

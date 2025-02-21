@@ -19,7 +19,7 @@ async function getData(id: string): Promise<MealData> {
     return res.json();
 }
 
-// ✅ FIX: Use Next.js `PageProps` correctly
+//Use Next.js `PageProps` correctly
 export default async function Page({ params }: { params: { id: string } }) {
     const data = await getData(params.id);
     const meal = data.meals[0];

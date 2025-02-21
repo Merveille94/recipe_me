@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import Navbar from "@/app/components/home/Navbar";
@@ -15,7 +16,12 @@ const Header = () => {
                 {/* Logo */}
                 <div>
                     <Link href="/" className="flex items-center">
-                        <img src="/images/Logo.svg" alt="Logo" className="h-10 pr-2" />
+                        <Image
+                            src="/images/Logo.svg" alt="Logo"
+                            className="h-10 pr-2"
+                            height={50}
+                            width={50}
+                        />
                         <h1 className="hidden sm:block">RecipeMe</h1>
                     </Link>
                 </div>
